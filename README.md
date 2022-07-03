@@ -1,4 +1,6 @@
-# Awesome Project Build with TypeORM
+# University Api - Typeorm
+
+my first experience with typeorm.
 
 Steps to run this project:
 
