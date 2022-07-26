@@ -20,7 +20,12 @@ export const findAllStudents = async () => {
     const studentRepo = AppDataSource.getRepository(Student);
 
     try {
-        const data = await studentRepo.find();
+        const data = await studentRepo.find({join: {
+            alias: 'student',
+            leftJoinAndSelect: {
+                "courses": "student.courses"
+            }
+        }});
         return { ...data, size: data.length };
     } catch (error) {
         console.log(error);
@@ -58,10 +63,12 @@ export const createCourseForStudent = async (studentid, courseData) => {
 
     try {
         const student = await studentRepo.findOne({ where: { student_id: studentid } });
-        const course = courseRepo.create(courseData);
-        await courseRepo.save(course);
-        await studentRepo.createQueryBuilder().relation(Student, "courses").of(student).add(courseData.id);
+        let course = courseRepo.create(courseData);
+        course = await courseRepo.save(course);
+        let c = Object.assign(course);
 
+        await studentRepo.createQueryBuilder().relation(Student, "courses").of(student).add(c.id);
+        await updateAverage(studentid);
         return courseData;
 
     } catch (error) {
@@ -101,4 +108,9 @@ export const deleteCourseForStudent = async (studentid, courseid) => {
         console.log(error);
         return false;
     }
+}
+
+const updateAverage = async(student_id) => {
+    const avg = await AppDataSource.manager.getRepository(Student).query(`select avg(grade) as grades from students a left join students_courses_courses b on a.id = b.\"studentsId\" and a.student_id =${student_id} left join courses c on b.\"coursesId\" = c.id group by a.id;`);
+    await AppDataSource.manager.getRepository(Student).createQueryBuilder().update({ average: parseInt(avg[0].grades)}).where({ student_id: student_id }).execute()
 }

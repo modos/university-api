@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, UpdateDateColumn, ManyToMany, JoinTable } from "typeorm"
 import { Course } from "./Course"
 
-@Entity({ name: "users" })
+@Entity({ name: "students" })
 export class Student {
 
     @PrimaryGeneratedColumn("increment")

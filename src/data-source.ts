@@ -9,7 +9,7 @@ export const AppDataSource = new DataSource({
     port: 5432,
     username: "postgres",
     password: "1234",
-    database: "university",
+    database: "uni",
     synchronize: true,
     logging: false,
     entities: [Student, Course],

@@ -2,6 +2,15 @@
 
 my first experience with typeorm.
 
+
+# todos
+- write test
+
+# screenshots
+routes:<br>
+
+![](routes.png)
+
 Steps to run this project:
 
 1. Run `npm i` command
