@@ -34,7 +34,7 @@ AppDataSource.initialize().then(async () => {
     })
 
     app.put('/:studentid/:courseid', async function (req, res) {
-        const result = await updateCourseForStudent(req.params.courseid, req.body);
+        const result = await updateCourseForStudent(req.params.courseid, req.body, req.params.studentid);
         res.status(200).json({...result, code: 200, message: "course updated successfully"});
 
     })

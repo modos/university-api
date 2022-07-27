@@ -5,6 +5,8 @@ my first experience with typeorm.
 
 # todos
 - write test
+- check types
+- dockerize
 
 # screenshots
 routes:<br>
